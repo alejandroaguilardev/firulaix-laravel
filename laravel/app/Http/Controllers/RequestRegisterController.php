@@ -4,9 +4,41 @@ namespace App\Http\Controllers;
 
 use App\Models\ResquestRegister;
 use Illuminate\Http\Request;
+use App\Mail\RequestMailable;
+use Illuminate\Support\Facades\Mail;
 
 class RequestRegisterController extends Controller
 {
+    public function index()
+    {
+        $requestRegister = ResquestRegister::where("status", "waiting")
+            ->paginate(5);
+
+        return response()->json($requestRegister, 200);
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        $requestRegister = ResquestRegister::find($id);
+        $requestRegister->status = "approved";
+        $requestRegister->update();
+
+        $this->sendEmail($requestRegister, $request->email);
+        return response()->json(["status" => $request->all()], 200);
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $requestRegister = ResquestRegister::find($id);
+        $requestRegister->status = "rejected";
+        $requestRegister->update();
+
+        $this->sendEmail($requestRegister, $request->email);
+        return response()->json(["status" => $request->all()], 200);
+    }
+
+
     public function store(Request $request)
     {
         $status = 400;
@@ -15,15 +47,15 @@ class RequestRegisterController extends Controller
             || !$request->hasFile("image")
             || !$request->hasFile("front")
             || !$request->hasFile("reverse")
-            || !$request->hasFile("payable")
+            || (!$request->hasFile("payable") && !$request->tx)
         ) {
             return response()->json(["ok" => false], $status);
         }
         try {
+            $payable = $request->hasFile("payable") ?  $this->saveImg("payable", $request->file("payable")) : "";
             $image =  $this->saveImg("image", $request->file("image"));
             $front =  $this->saveImg("front", $request->file("front"));
             $reverse =  $this->saveImg("reverse", $request->file("reverse"));
-            $payable =  $this->saveImg("payable", $request->file("payable"));
 
             $adopter = json_decode(base64_decode($request->adopter));
             $adopter->front = $front;
@@ -39,8 +71,12 @@ class RequestRegisterController extends Controller
             $requestRegister->pet = trim($pet);
             $requestRegister->payable = trim($payable);
             $requestRegister->email = trim($request->email);
+            $requestRegister->tx = trim($request->tx);
+            $requestRegister->status = "waiting";
             $requestRegister->save();
             $status = 200;
+
+            $this->sendEmail($requestRegister, $request->email);
             return response()->json(["ok" => true], $status);
         } catch (\Throwable $th) {
             return response()->json(["ok" => false, "error" => $th],  500);
@@ -62,5 +98,11 @@ class RequestRegisterController extends Controller
             return false;
         }
         return true;
+    }
+
+    public function sendEmail($requestRegister, $email)
+    {
+        $mail = new RequestMailable($requestRegister);
+        Mail::to($email)->send($mail);
     }
 }
