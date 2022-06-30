@@ -54,13 +54,6 @@ class EmailsController extends Controller
         return response()->json([], $status);
     }
 
-    public function recaptcha($captcha)
-    {
-        $ip = $_SERVER['REMOTE_ADDR'];
-        $secretkey = "6LeBltsdAAAAAOoSGmBMBlIE5LMR8DvvTV8FvP9A";
-        $response = json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secretkey&response=$captcha&remoteip=$ip"));
-        return  $response->success;
-    }
 
     public function validateParams($email, $captcha)
     {

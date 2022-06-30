@@ -44,15 +44,17 @@ class RequestRegisterController extends Controller
         $status = 400;
         if (
             !$this->validateParams($request->adopter, $request->pet, $request->email)
+            || !$this->recaptcha($request->captcha)
             || !$request->hasFile("image")
             || !$request->hasFile("front")
             || !$request->hasFile("reverse")
             || (!$request->hasFile("payable") && !$request->tx)
-        ) {
+                ) {
             return response()->json(["ok" => false], $status);
         }
         try {
             $payable = $request->hasFile("payable") ?  $this->saveImg("payable", $request->file("payable")) : "";
+            $pedigree = $request->hasFile("pedigree") ?  $this->saveImg("pedigree", $request->file("pedigree")) : "";
             $image =  $this->saveImg("image", $request->file("image"));
             $front =  $this->saveImg("front", $request->file("front"));
             $reverse =  $this->saveImg("reverse", $request->file("reverse"));
@@ -70,6 +72,7 @@ class RequestRegisterController extends Controller
             $requestRegister->adopter = trim($adopter);
             $requestRegister->pet = trim($pet);
             $requestRegister->payable = trim($payable);
+            $requestRegister->pedigree = trim($pedigree);
             $requestRegister->email = trim($request->email);
             $requestRegister->tx = trim($request->tx);
             $requestRegister->status = "waiting";
