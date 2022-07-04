@@ -76,10 +76,9 @@ class RequestRegisterController extends Controller
             $requestRegister->email = trim($request->email);
             $requestRegister->tx = trim($request->tx);
             $requestRegister->status = "waiting";
-            $requestRegister->save();
             $status = 200;
-
             $this->sendEmail($requestRegister, $request->email);
+            $requestRegister->save();
             return response()->json(["ok" => true], $status);
         } catch (\Throwable $th) {
             return response()->json(["ok" => false, "error" => $th],  500);

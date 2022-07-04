@@ -7,6 +7,7 @@ use App\Http\Controllers\HistoryVersionController;
 use App\Http\Controllers\NewspaperController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\WarController;
+use App\Http\Controllers\WarTestnetController;
 use App\Http\Controllers\RequestRegisterController;
 
 /*
@@ -24,4 +25,5 @@ Route::resource('/history-versions', HistoryVersionController::class);
 Route::resource('/newspaper', NewspaperController::class);
 Route::resource('/news', NewsController::class);
 Route::resource('/war', WarController::class);
+Route::resource('/warTesnet', WarTestnetController::class);
 Route::resource('/request-register', RequestRegisterController::class);

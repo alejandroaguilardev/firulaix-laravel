@@ -4,24 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class WarController extends Controller
+class WarTestnetController extends Controller
 {
 
     private $endPoints = [
         "json" => [
             'url'=> 'https://api.pinata.cloud/pinning/pinFileToIPFS',
-            'pinata_api_key' => '3ffe3fd6fb6de5240702',
-            'pinata_secret_api_key' => 'c7e0cb596d35dd9c23d632ea993077e254f179a06ec4b27098afbbb35bb69924',
+            'pinata_api_key' => '65fba8da9b8bfc731f10',
+            'pinata_secret_api_key' => '22686cc7069634db6af0195fe5eb9ae09ee562465e2436fdf9519246532295e1',
         ],
         "image" =>[
             'url'=> 'https://api.pinata.cloud/pinning/pinFileToIPFS',
-            'pinata_api_key' => 'bfd20714f2932cc69adb',
-            'pinata_secret_api_key' => 'c52cf21b85ee56a4ad9da706fa8756c202fe87264c4ca70e4ab0c8251f988b7d',
+            'pinata_api_key' => '65fba8da9b8bfc731f10',
+            'pinata_secret_api_key' => '22686cc7069634db6af0195fe5eb9ae09ee562465e2436fdf9519246532295e1',
         ],
         "pedigree" =>[
             'url'=> 'https://api.pinata.cloud/pinning/pinFileToIPFS',
-            'pinata_api_key' => '9b3f1abe77d0c1492e17',
-            'pinata_secret_api_key' => '50c3452e2d1579bf5b85c347bc13b9595d42fe4ca46d3d487c2f5d53aa30f606',
+            'pinata_api_key' => '65fba8da9b8bfc731f10',
+            'pinata_secret_api_key' => '22686cc7069634db6af0195fe5eb9ae09ee562465e2436fdf9519246532295e1',
         ],
     ];
 
@@ -68,7 +68,7 @@ class WarController extends Controller
         return $url->IpfsHash;
     }
 
-    public function curl($name, $fields)
+    public function curl($name, $fields,)
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $this->endPoints[$name]["url"]);
