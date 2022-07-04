@@ -25,5 +25,5 @@ Route::resource('/history-versions', HistoryVersionController::class);
 Route::resource('/newspaper', NewspaperController::class);
 Route::resource('/news', NewsController::class);
 Route::resource('/war', WarController::class);
-Route::resource('/warTesnet', WarTestnetController::class);
+Route::resource('/warTestnet', WarTestnetController::class);
 Route::resource('/request-register', RequestRegisterController::class);
