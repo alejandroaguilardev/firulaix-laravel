@@ -76,6 +76,7 @@ class RequestRegisterController extends Controller
             $requestRegister->email = trim($request->email);
             $requestRegister->tx = trim($request->tx);
             $requestRegister->status = "waiting";
+            $requestRegister->cod = trim($request->cod);
             $status = 200;
             $this->sendEmail($requestRegister, $request->email);
             $requestRegister->save();
