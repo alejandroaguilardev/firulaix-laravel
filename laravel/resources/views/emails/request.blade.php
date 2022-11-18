@@ -379,7 +379,7 @@ $adopter = json_decode(base64_decode($param->adopter)); @endphp
                                         <br />
 
                                         <p>
-                                            <span class="bold">Gender:</span> {{ $adopter->gender }}
+                                            <span class="bold">Sex:</span> {{ $adopter->gender }}
                                         </p>
                                         <p>
                                             <span class="bold">Date of Birt:</span>
@@ -445,7 +445,11 @@ $adopter = json_decode(base64_decode($param->adopter)); @endphp
                                         <p><span class="bold">Race:</span> {{ $pet->race }}</p>
                                         <br />
                                         <p><span class="bold">Date:</span> {{ $pet->date }}</p>
-                                        <span class="bold">Date adoption:</span> {{ $pet->gender }}
+                                                                                <p><span class="bold">Date Adoption:</span> {{ $pet->dateAdoption }}</p>
+                                                                                
+                                         <p><span class="bold">Sex:</span> {{ $pet->gender }}</p>
+                                                                                
+                                                                                
                                         <p><span class="bold">Color:</span> {{ $pet->colour }}</p>
                                         <p>
                                             <span class="bold">Sterilized:</span>
@@ -456,12 +460,12 @@ $adopter = json_decode(base64_decode($param->adopter)); @endphp
                                         <br />
 										    <p>
                                                 <span class="bold">chipFather:</span>
-                                                {{ $pet->sterilized }}
+                                                {{ $pet->chipFather }}
                                             </p>
                                             @endif @if ($pet->chipMother)
                                                 <p>
                                                     <span class="bold">chipMother:</span>
-                                                    {{ $pet->sterilized }}
+                                                    {{ $pet->chipMother }}
                                                 </p>
                                             @endif
                                     </td>
